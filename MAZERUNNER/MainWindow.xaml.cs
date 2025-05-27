@@ -17,32 +17,84 @@ using System.Threading;
 
 namespace WpfExample
 {
+    class Rechteck
+    {
+        public double laenge = 1;
+        public double breite = 2;
+
+        public double FlaechenBerechnen()
+        {
+            return laenge * breite;
+        }
+        public Rechteck(double laenge, double breite)
+        {
+            this.laenge = laenge;
+            this.breite = breite;
+
+        }
+        public override string ToString()
+        {
+            return $"Rechteck: {laenge}x{breite}";
+        }
+    }
+
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<Rechteck> rechtecke = new List<Rechteck>();
+
         public MainWindow()
         {
             InitializeComponent();
+
         }
 
-        public void Button3_Click(object sender, RoutedEventArgs e)
+        private void TextBox_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            int i;
-            for (i = 0; i <= 10; i++)
+
+        }
+
+        private void btnSpeichern_Click(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                Thread.Sleep(500);
-                Button3.Content = "Frag nicht was für Saft, einfach Orangensaft";
+                string laengeStr = this.tbxlaenge.Text;
+                double laenge = double.Parse(laengeStr);
+                string breiteStr = this.tbxbreite.Text;
+                double breite = double.Parse(breiteStr);
+                if (lstrechtecke.SelectedItem != null)
+                {
+                    Rechteck r = (Rechteck)lstrechtecke.SelectedItem;
+                    r.breite = breite;
+                    r.laenge = laenge;
+                    lstrechtecke.Items.Refresh();
 
+                }
+                else
+                {
+                    Rechteck r = new Rechteck(laenge, breite);
+                    lstrechtecke.Items.Add(r);
+                    rechtecke.Add(r);
+                    lstrechtecke.Items.Refresh();
+                }
 
+                tbxbreite.Clear();
+                tbxlaenge.Clear();
             }
+            catch (FormatException)
+            {
+                MessageBox.Show("Ungültige Eingabe");
+            };
 
         }
 
-        private void Button7_Click(object sender, RoutedEventArgs e)
+        private void lstrechtecke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Rechteck r = (Rechteck)this.lstrechtecke.SelectedItem;
+            tbxlaenge.Text = r.laenge.ToString();
+            tbxbreite.Text = r.breite.ToString();
         }
     }
 }

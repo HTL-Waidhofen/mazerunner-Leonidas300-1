@@ -7,11 +7,18 @@
         mc:Ignorable="d"
         Title="Wpf Example - Main Window" Height="450" Width="800">
     <StackPanel>
-        <Button x:Name="Button1"></Button>
-        <Button x:Name="Button2"></Button>
-        <Button x:Name="Button3" Click="Button3_Click" Height="342" Foreground="#FF38EA14">
-            
-        </Button>
-        
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Label Width="100">Höhe:</Label>
+            <TextBox x:Name="tbxlaenge" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Label Width="100">Breite:</Label>
+            <TextBox x:Name="tbxbreite" Width="100"></TextBox>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left">
+            <Button x:Name="btnSpeichern" Margin="10" Width="100"  Click="btnSpeichern_Click">Speicher</Button>
+            <ListView x:Name="lstrechtecke" SelectionChanged="lstrechtecke_SelectionChanged" Height="200" Width="200" Margin="10"></ListView>
+        </StackPanel>
+
     </StackPanel>
 </Window>
