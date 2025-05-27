@@ -94,12 +94,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-<<<<<<< HEAD
-    <Resource Include="Download.jpg" />
-=======
-    <Resource Include="br-br-patapim.jpg" />
->>>>>>> 8e2e563d0a648e4032743d8c76d710b958d7eb75
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -26,8 +26,7 @@ namespace WpfExample
         {
             InitializeComponent();
         }
-<<<<<<< HEAD
-       
+
         public void Button3_Click(object sender, RoutedEventArgs e)
         {
             int i;
@@ -36,16 +35,14 @@ namespace WpfExample
                 Thread.Sleep(500);
                 Button3.Content = "Frag nicht was für Saft, einfach Orangensaft";
 
-                
+
             }
-            
-            
-=======
+
+        }
 
         private void Button7_Click(object sender, RoutedEventArgs e)
         {
 
->>>>>>> 8e2e563d0a648e4032743d8c76d710b958d7eb75
         }
     }
 }

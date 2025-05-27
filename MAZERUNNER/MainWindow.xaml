@@ -10,24 +10,8 @@
         <Button x:Name="Button1"></Button>
         <Button x:Name="Button2"></Button>
         <Button x:Name="Button3" Click="Button3_Click" Height="342" Foreground="#FF38EA14">
-            <Button.Background>
-                <ImageBrush ImageSource="/Download.jpg"/>
-            </Button.Background> Leonardo Depardio</Button>
-        <Button x:Name="Button4"></Button>
-        <Button x:Name="Button5"></Button>
-        <Button x:Name="Button6"></Button>
-        <Button x:Name="Button7" Height="246" RenderTransformOrigin="0.5,0.5" Click="Button7_Click" Width="1156">
-            <Button.Background>
-                <ImageBrush ImageSource="/br-br-patapim.jpg"/>
-            </Button.Background>
-            <Button.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="-60.744"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="-89.26"/>
-                </TransformGroup>
-            </Button.RenderTransform>
+            
         </Button>
+        
     </StackPanel>
 </Window>
