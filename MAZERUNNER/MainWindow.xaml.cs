@@ -49,6 +49,9 @@ namespace WpfExample
         {
             InitializeComponent();
 
+            Button button = new Button();
+            
+
         }
 
         private void TextBox_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -95,6 +98,26 @@ namespace WpfExample
             Rechteck r = (Rechteck)this.lstrechtecke.SelectedItem;
             tbxlaenge.Text = r.laenge.ToString();
             tbxbreite.Text = r.breite.ToString();
+        }
+
+        private void ButtonZeichnen_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = 0; i < rechtecke.Count; i++)
+            {
+                double breite = rechtecke[i].breite;
+                double laenge = rechtecke[i].laenge;
+
+
+                Rectangle rect = new Rectangle();
+                rect.Width = breite;
+                rect.Width = laenge;
+
+                rect.StrokeThickness = 2;
+                rect.Stroke = Brushes.Black;
+
+                myCanvas.Children.Add(rect);
+
+            }
         }
     }
 }
