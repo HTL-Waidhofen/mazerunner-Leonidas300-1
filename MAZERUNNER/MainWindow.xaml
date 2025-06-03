@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Objektorientierung"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        KeyDown="Window_KeyDown"
+        >
+       
     <StackPanel Orientation="Horizontal">
-        <StackPanel>
+        <StackPanel x:Name="stp_sidebar" >
             <StackPanel Orientation="Horizontal" Margin="10">
                 <Label Width="100">Länge</Label>
                 <TextBox x:Name="tbxLaenge" Width="100"></TextBox>
@@ -35,6 +38,7 @@
             </Canvas>
             <Button Margin="10" Click="Zeichnen_Click" >Rechtecke zeichnen</Button>
             <Button Margin="10" Click="Loeschen_Click">Rechtecke löschen</Button>
+            <Button Margin="10" Click="Starten_Click">Spiel starten</Button>
         </StackPanel>
     </StackPanel>
 </Window>

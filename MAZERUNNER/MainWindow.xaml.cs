@@ -16,6 +16,42 @@ using System.Windows.Shapes;
 
 namespace Objektorientierung
 {
+    class Spieler
+    {
+        public int x;
+        public int y;
+        public Image image;
+
+        public Spieler()
+        {
+            x = 1;
+            y = 1;
+
+
+        }
+        public void Move(Key key)
+        {
+            if(key == Key.Left)
+            {
+                x--;
+            }
+            if (key == Key.Right)
+            {
+                x++;
+            }
+            if (key == Key.Up)
+            {
+                y--;
+            }
+            if (key == Key.Down)
+            {
+                y++;
+            }
+            Canvas.SetLeft(image, x * MainWindow.grid_size);
+            Canvas.SetTop(image, y * MainWindow.grid_size);
+        }
+
+    }
     class Rechteck
     {
         public double laenge = 1;
@@ -47,10 +83,14 @@ namespace Objektorientierung
     public partial class MainWindow : Window
     {
         List<Rechteck> rechtecke = new List<Rechteck>();
+        Spieler spieler = new Spieler();
+
+        public static int grid_size = 10;
 
         public MainWindow()
         {
             InitializeComponent();
+
 
             Button button = new Button();
             button.Width = 100;
@@ -62,10 +102,10 @@ namespace Objektorientierung
 
             for(int i = 0; i < walls.Length; i++)
             {
-                int x = int.Parse(walls[i].Split(',')[0])*10;
-                int y = int.Parse(walls[i].Split(',')[1])*10;
+                int x = int.Parse(walls[i].Split(',')[0])*grid_size;
+                int y = int.Parse(walls[i].Split(',')[1])*grid_size;
 
-                Rechteck r = new Rechteck(10,10,x,y);
+                Rechteck r = new Rechteck(1,1,x,y);
                 rechtecke.Add(r);
                 lstRechtecke.Items.Add(r);
             }
@@ -124,19 +164,49 @@ namespace Objektorientierung
             for (int i = 0; i < rechtecke.Count; i++)
             {
                 Rectangle rectangle = new Rectangle();
-                rectangle.Width = rechtecke[i].laenge;
-                rectangle.Height = rechtecke[i].breite;
+                rectangle.Width = rechtecke[i].laenge * grid_size;
+                rectangle.Height = rechtecke[i].breite*grid_size;
                 rectangle.StrokeThickness = 2;
                 rectangle.Stroke = Brushes.Black;
                 Canvas.SetTop(rectangle, rechtecke[i].position_x);
                 Canvas.SetLeft(rectangle, rechtecke[i].position_y); //hier nächstes mal weiter programmieren (Positionierung funktioniert nicht)
                 myCanvas.Children.Add(rectangle);
             }
+
+            spieler.image = new Image();
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource= new Uri("Josef-Stalin.jpg",UriKind.Relative);
+            bitmap.EndInit();
+            spieler.image.Source = bitmap;
+            spieler.image.Width = grid_size*1.5;
+            spieler.image.Height = grid_size*1.5;
+            Canvas.SetLeft(spieler.image, spieler.x* grid_size);
+            Canvas.SetTop(spieler.image, spieler.y* grid_size);
+            myCanvas.Children.Add(spieler.image);
         }
 
         private void Loeschen_Click(object sender, RoutedEventArgs e)
         {
             myCanvas.Children.Clear();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            spieler.Move(e.Key);
+
+        }
+
+        private void Starten_Click(object sender, RoutedEventArgs e)
+        {
+            if( stp_sidebar.Visibility == Visibility.Collapsed)
+            {
+                stp_sidebar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                stp_sidebar.Visibility= Visibility.Collapsed;
+            }
         }
     }
 }
