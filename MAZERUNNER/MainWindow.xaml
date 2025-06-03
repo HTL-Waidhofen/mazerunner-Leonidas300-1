@@ -1,31 +1,40 @@
-﻿<Window x:Class="WpfExample.MainWindow"
+﻿<Window x:Class="Objektorientierung.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfExample"
+        xmlns:local="clr-namespace:Objektorientierung"
         mc:Ignorable="d"
-        Title="Wpf Example - Main Window" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800">
     <StackPanel Orientation="Horizontal">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Label Width="100">Höhe:</Label>
-                <TextBox x:Name="tbxlaenge" Width="100"></TextBox>
+                <Label Width="100">Länge</Label>
+                <TextBox x:Name="tbxLaenge" Width="100"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="10">
-                <Label Width="100">Breite:</Label>
-                <TextBox x:Name="tbxbreite" Width="100"></TextBox>
+                <Label Width="100">Breite</Label>
+                <TextBox x:Name="tbxBreite" Width="100"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">Abstand x</Label>
+                <TextBox x:Name="tbxPosx" Width="100"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10">
+                <Label Width="100">Abstand y</Label>
+                <TextBox x:Name="tbxPosy" Width="100"></TextBox>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left">
-                <Button x:Name="btnSpeichern" Margin="10" Width="100"  Click="btnSpeichern_Click">Speicher</Button>
-                <ListView x:Name="lstrechtecke" SelectionChanged="lstrechtecke_SelectionChanged" Height="200" Width="200" Margin="10"></ListView>
+                <Button Margin="10" Width="100" Click="btnSpeichern_Click">Speichern</Button>
+                <ListView x:Name="lstRechtecke" SelectionChanged="lstRechtecke_SelectionChanged" Height="200" Width="200" Margin="10"></ListView>
             </StackPanel>
-            <Button Margin="10" Click="ButtonZeichnen_Click">Zeichnen</Button>
-
-
         </StackPanel>
-        <Canvas x:Name="myCanvas" Width="500">
-            
-        </Canvas>
+        <StackPanel>
+            <Canvas Background="AliceBlue" Width="200" Height="200" Margin="10" x:Name="myCanvas">
+
+            </Canvas>
+            <Button Margin="10" Click="Zeichnen_Click" >Rechtecke zeichnen</Button>
+            <Button Margin="10" Click="Loeschen_Click">Rechtecke löschen</Button>
+        </StackPanel>
     </StackPanel>
 </Window>

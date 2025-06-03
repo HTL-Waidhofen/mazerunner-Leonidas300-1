@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,29 +13,31 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Threading;
 
-
-namespace WpfExample
+namespace Objektorientierung
 {
     class Rechteck
     {
         public double laenge = 1;
         public double breite = 2;
 
-        public double FlaechenBerechnen()
+        public double position_x = 0;
+        public double position_y = 0;
+
+        public double FlaecheBerechnen()
         {
             return laenge * breite;
         }
-        public Rechteck(double laenge, double breite)
+        public Rechteck(double laenge, double breite, double position_x, double position_y)
         {
             this.laenge = laenge;
             this.breite = breite;
-
+            this.position_x = position_x;
+            this.position_y = position_y;
         }
         public override string ToString()
         {
-            return $"Rechteck: {laenge}x{breite}";
+            return $"rechteck: {laenge}x{breite} [{position_x}x{position_y}]";
         }
     }
 
@@ -50,74 +53,90 @@ namespace WpfExample
             InitializeComponent();
 
             Button button = new Button();
-            
+            button.Width = 100;
+            button.Content = "Click mich";
 
-        }
+            StreamReader reader = new StreamReader("wallsList.txt");
+            string wallsList = reader.ReadToEnd();
+            string[] walls = wallsList.Split('\n');
 
-        private void TextBox_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
+            for(int i = 0; i < walls.Length; i++)
+            {
+                int x = int.Parse(walls[i].Split(',')[0])*10;
+                int y = int.Parse(walls[i].Split(',')[1])*10;
 
+                Rechteck r = new Rechteck(10,10,x,y);
+                rechtecke.Add(r);
+                lstRechtecke.Items.Add(r);
+            }
         }
 
         private void btnSpeichern_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                string laengeStr = this.tbxlaenge.Text;
+                string laengeStr = this.tbxLaenge.Text;
                 double laenge = double.Parse(laengeStr);
-                string breiteStr = this.tbxbreite.Text;
+                string breiteStr = this.tbxBreite.Text;
                 double breite = double.Parse(breiteStr);
-                if (lstrechtecke.SelectedItem != null)
+                string position_xStr = this.tbxPosx.Text;
+                double position_x = double.Parse(position_xStr);
+                string position_yStr = this.tbxPosy.Text;
+                double position_y = double.Parse(position_yStr);
+                if (lstRechtecke.SelectedItem != null)
                 {
-                    Rechteck r = (Rechteck)lstrechtecke.SelectedItem;
-                    r.breite = breite;
+                    Rechteck r = (Rechteck)this.lstRechtecke.SelectedItem;
                     r.laenge = laenge;
-                    lstrechtecke.Items.Refresh();
+                    r.breite = breite;
+                    //nächstes mal weiter
+                    lstRechtecke.Items.Refresh();
 
                 }
                 else
                 {
-                    Rechteck r = new Rechteck(laenge, breite);
-                    lstrechtecke.Items.Add(r);
+                    Rechteck r = new Rechteck(laenge, breite, position_x, position_y);
+                    lstRechtecke.Items.Add(r);
                     rechtecke.Add(r);
-                    lstrechtecke.Items.Refresh();
-                }
 
-                tbxbreite.Clear();
-                tbxlaenge.Clear();
+                }
+                tbxLaenge.Clear();
+                tbxBreite.Clear();
             }
             catch (FormatException)
             {
-                MessageBox.Show("Ungültige Eingabe");
-            };
-
+                MessageBox.Show("Ungültige Eingabe!");
+            }
         }
 
-        private void lstrechtecke_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void lstRechtecke_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Rechteck r = (Rechteck)this.lstrechtecke.SelectedItem;
-            tbxlaenge.Text = r.laenge.ToString();
-            tbxbreite.Text = r.breite.ToString();
+            Rechteck r = (Rechteck)this.lstRechtecke.SelectedItem;
+            try
+            {
+                tbxLaenge.Text = r.laenge.ToString();
+                tbxBreite.Text = r.breite.ToString();
+            }
+            catch (NullReferenceException) { }
         }
 
-        private void ButtonZeichnen_Click(object sender, RoutedEventArgs e)
+        private void Zeichnen_Click(object sender, RoutedEventArgs e)
         {
             for (int i = 0; i < rechtecke.Count; i++)
             {
-                double breite = rechtecke[i].breite;
-                double laenge = rechtecke[i].laenge;
-
-
-                Rectangle rect = new Rectangle();
-                rect.Width = breite;
-                rect.Width = laenge;
-
-                rect.StrokeThickness = 2;
-                rect.Stroke = Brushes.Black;
-
-                myCanvas.Children.Add(rect);
-
+                Rectangle rectangle = new Rectangle();
+                rectangle.Width = rechtecke[i].laenge;
+                rectangle.Height = rechtecke[i].breite;
+                rectangle.StrokeThickness = 2;
+                rectangle.Stroke = Brushes.Black;
+                Canvas.SetTop(rectangle, rechtecke[i].position_x);
+                Canvas.SetLeft(rectangle, rechtecke[i].position_y); //hier nächstes mal weiter programmieren (Positionierung funktioniert nicht)
+                myCanvas.Children.Add(rectangle);
             }
+        }
+
+        private void Loeschen_Click(object sender, RoutedEventArgs e)
+        {
+            myCanvas.Children.Clear();
         }
     }
 }
