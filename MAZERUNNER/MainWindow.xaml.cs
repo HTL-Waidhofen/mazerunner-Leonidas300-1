@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Objektorientierung
 {
@@ -21,6 +22,7 @@ namespace Objektorientierung
         public int x;
         public int y;
         public Image image;
+        public MainWindow.Direction direction=MainWindow.Direction.None;
 
         public Spieler()
         {
@@ -29,21 +31,26 @@ namespace Objektorientierung
 
 
         }
-        public void Move(Key key)
+        public void SetDirection(MainWindow.Direction direction)
         {
-            if(key == Key.Left)
+            this.direction = direction;
+
+        }
+        public void Move()
+        {
+            if(direction==MainWindow.Direction.Left)
             {
                 x--;
             }
-            if (key == Key.Right)
+            if (direction == MainWindow.Direction.Right)
             {
                 x++;
             }
-            if (key == Key.Up)
+            if (direction == MainWindow.Direction.Up)
             {
                 y--;
             }
-            if (key == Key.Down)
+            if (direction == MainWindow.Direction.Down)
             {
                 y++;
             }
@@ -82,6 +89,12 @@ namespace Objektorientierung
     /// </summary>
     public partial class MainWindow : Window
     {
+        public enum Direction
+        {
+            Up,Down,Left,Right,None
+        }
+
+        DispatcherTimer timer = null;
         List<Rechteck> rechtecke = new List<Rechteck>();
         Spieler spieler = new Spieler();
 
@@ -91,6 +104,7 @@ namespace Objektorientierung
         {
             InitializeComponent();
 
+            
 
             Button button = new Button();
             button.Width = 100;
@@ -109,6 +123,11 @@ namespace Objektorientierung
                 rechtecke.Add(r);
                 lstRechtecke.Items.Add(r);
             }
+        }
+
+        private void Update(object sender, EventArgs e)
+        {
+            spieler.Move();
         }
 
         private void btnSpeichern_Click(object sender, RoutedEventArgs e)
@@ -193,7 +212,22 @@ namespace Objektorientierung
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            spieler.Move(e.Key);
+            if(e.Key == Key.Left)
+            {
+                spieler.SetDirection(Direction.Left);
+            }
+            else if (e.Key == Key.Right)
+            {
+                spieler.SetDirection(Direction.Right);
+            }
+            else if (e.Key == Key.Up)
+            {
+                spieler.SetDirection(Direction.Up);
+            }
+            else if (e.Key == Key.Down)
+            {
+                spieler.SetDirection(Direction.Down);
+            }
 
         }
 
@@ -206,6 +240,11 @@ namespace Objektorientierung
             else
             {
                 stp_sidebar.Visibility= Visibility.Collapsed;
+
+                timer = new DispatcherTimer(DispatcherPriority.Render);
+                timer.Interval = TimeSpan.FromMilliseconds(300);
+                timer.Tick += Update;
+                timer.Start();
             }
         }
     }
