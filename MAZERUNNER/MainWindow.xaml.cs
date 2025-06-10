@@ -23,12 +23,13 @@ namespace Objektorientierung
         public int y;
         public Image image;
         public MainWindow.Direction direction=MainWindow.Direction.None;
+        public List<Rechteck> rechtecke;
 
-        public Spieler()
+        public Spieler(List<Rechteck> rechtecke)
         {
             x = 1;
             y = 1;
-
+            this.rechtecke = rechtecke;
 
         }
         public void SetDirection(MainWindow.Direction direction)
@@ -38,6 +39,9 @@ namespace Objektorientierung
         }
         public void Move()
         {
+            int currentX = x;
+            int currentY = y;
+
             if(direction==MainWindow.Direction.Left)
             {
                 x--;
@@ -54,6 +58,21 @@ namespace Objektorientierung
             {
                 y++;
             }
+
+            bool collision = false;
+            foreach(Rechteck r in rechtecke)
+            {
+                if (r.position_x == x *MainWindow.grid_size && r.position_y==y*MainWindow.grid_size)
+                {
+                    collision = true;
+                }
+            }
+            if (collision)
+            {
+                x = currentX;
+                y = currentY;
+            }
+
             Canvas.SetLeft(image, x * MainWindow.grid_size);
             Canvas.SetTop(image, y * MainWindow.grid_size);
         }
@@ -96,7 +115,7 @@ namespace Objektorientierung
 
         DispatcherTimer timer = null;
         List<Rechteck> rechtecke = new List<Rechteck>();
-        Spieler spieler = new Spieler();
+        Spieler spieler;
 
         public static int grid_size = 10;
 
@@ -104,7 +123,7 @@ namespace Objektorientierung
         {
             InitializeComponent();
 
-            
+            spieler = new Spieler(rechtecke);
 
             Button button = new Button();
             button.Width = 100;
